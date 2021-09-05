@@ -5,14 +5,14 @@ import scipy.integrate as integrate
 def func(x):
     return(np.exp(x))
 
-def trapezoidal(a,b,y=-1,N=10,f=func):
+def trapezoidal(a,b,y=None,N=10,f=func):
     integral=0 
     x=np.linspace(a,b,N+1) 
-    if y==-1:
+    if y is None:
         y=f(x)
     
     if len(x)!=len(y):
-        return("Error")
+        raise ValueError("length of x must be same as y")
     for i in range(len(x)):
         if i==0 or i==len(x)-1:
             integral+=y[i]
@@ -21,14 +21,15 @@ def trapezoidal(a,b,y=-1,N=10,f=func):
     h=(b-a)/N
     return((h/2)*integral)
 
-def simpson(a,b,y=-1,N=10,f=func):
+def simpson(a,b,y=None,N=10,f=func):
     integral=0
     x=np.linspace(a,b,N+1) 
-    if y==-1:
+    if y is None:
         y=f(x)
-    
+
     if len(x)!=len(y):
-        return("Error")
+        raise ValueError("length of x must be same as y")
+        
     for i in range(len(x)):
         if i==0 or i==len(x)-1:
             integral+=y[i]
@@ -41,7 +42,8 @@ def simpson(a,b,y=-1,N=10,f=func):
 
 def integration(function,a,b,ni):
     y_data_2,y_data,y_data_3=[],[],[]
-    n_array=np.arange(10,41)
+    n_array=np.arange(41,370,2)
+    h_array=(b-a)/n_array
 
     for n in n_array:
         x_data=np.linspace(a,b,n+1)
@@ -57,9 +59,9 @@ def integration(function,a,b,ni):
     print("|{:<20}|".format("Trapezoidal rule"),"{0:^16} |{1:>23}|".format(trapval, trapval- trueval[0] ))
     print("|{:<20}|".format("Simpson's rule"),"{0:^16} |{1:>23}|".format(simpval, simpval-trueval[0]))
     print("{0:{fill}<66}".format('',fill='-'))
-    plt.plot(10/n_array,y_data,label="Trapezoidal rule")
-    plt.plot(10/n_array,y_data_2,label="Simpson's rule")
-    plt.plot(10/n_array,y_data_3,label="scipy's simpson implementation")
+    plt.plot(h_array,y_data,label="Trapezoidal rule")
+    plt.plot(h_array,y_data_2,label="Simpson's rule")
+    plt.plot(h_array,y_data_3,label="scipy's simpson implementation")
     plt.legend()
 
 
@@ -80,7 +82,8 @@ if __name__=="__main__":
 
     '''
     PART 3(b)
+    '''
     integration(func,3,13,100)
 
     plt.show()
-    '''
+    
