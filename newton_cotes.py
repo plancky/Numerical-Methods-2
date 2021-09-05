@@ -70,13 +70,17 @@ if __name__=="__main__":
     '''
     PART 3(a)
     '''
-    trapval=trapezoidal(0,1,y=[0,0.5,2.0,4.05,8,12.5,18,24.5,32,40.5,50],N=10)
-    simpval=simpson(0,1,y=[0,0.5,2.0,4.05,8,12.5,18,24.5,32,40.5,50],N=10)
+    V= [0,0.5,2.0,4.05,8,12.5,18,24.5,32,40.5,50]
+    trapval=trapezoidal(0,1,y=V,N=10)
+    simpval=simpson(0,1,y=V,N=10)
     print("{0:{fill}<40}".format('-',fill='-'))
     print("|{:<20}|".format("Trapezoidal rule"),"{0:>16.6f} |".format(trapval))
     print("|{:<20}|".format("Simpson's rule"),"{0:>16.6f} |".format(simpval))
     print("{0:{fill}<40}".format('',fill='-'))
 
-    #integration(func,3,13,100)
+    '''
+    PART 3(b)
+    integration(func,3,13,100)
 
-    #plt.show()
+    plt.show()
+    '''
