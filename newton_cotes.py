@@ -18,8 +18,8 @@ def trapezoidal(a,b,y=None,N=10,f=func):
             integral+=y[i]
         else:
             integral+=2*y[i]
-    h=(b-a)/N
-    return((h/2)*integral)
+    integral*=(b-a)/(2*N)
+    return(integral)
 
 def simpson(a,b,y=None,N=10,f=func):
     integral=0
@@ -29,7 +29,7 @@ def simpson(a,b,y=None,N=10,f=func):
 
     if len(x)!=len(y):
         raise ValueError("length of x must be same as y")
-        
+
     for i in range(len(x)):
         if i==0 or i==len(x)-1:
             integral+=y[i]
@@ -37,12 +37,13 @@ def simpson(a,b,y=None,N=10,f=func):
             integral+=2*y[i]
         else:
             integral+=4*y[i]
-    h=(b-a)/N
-    return((h/3)*integral)
+
+    integral*=(b-a)/(N*3)
+    return(integral)
 
 def integration(function,a,b,ni):
     y_data_2,y_data,y_data_3=[],[],[]
-    n_array=np.arange(41,370,2)
+    n_array=np.arange(40,370,2)
     h_array=(b-a)/n_array
 
     for n in n_array:
@@ -54,6 +55,8 @@ def integration(function,a,b,ni):
     trueval=integrate.quad(function,a,b)
     trapval=trapezoidal(a,b,N=ni,f=function)
     simpval=simpson(a,b,N=ni,f=function)
+
+    #PRINTING and RENDERING JUNK
     print("{0:{fill}<66}".format('',fill='-'))
     print("|{:<20}|".format("Quad method scipy"),"{0:^16} |{1:>23}|".format(trueval[0], trueval[1] ))
     print("|{:<20}|".format("Trapezoidal rule"),"{0:^16} |{1:>23}|".format(trapval, trapval- trueval[0] ))
@@ -61,7 +64,7 @@ def integration(function,a,b,ni):
     print("{0:{fill}<66}".format('',fill='-'))
     plt.plot(h_array,y_data,label="Trapezoidal rule")
     plt.plot(h_array,y_data_2,label="Simpson's rule")
-    plt.plot(h_array,y_data_3,label="scipy's simpson implementation")
+    plt.plot(h_array,y_data_3,linestyle='--',label="scipy's simpson implementation")
     plt.legend()
 
 
@@ -82,6 +85,7 @@ if __name__=="__main__":
 
     '''
     PART 3(b)
+    https://github.com/scipy/scipy/blob/v1.7.1/scipy/integrate/_quadrature.py#L433-L555
     '''
     integration(func,3,13,100)
 
