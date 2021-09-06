@@ -59,11 +59,30 @@ def simpson(a,b,y=None,N=10,f=func):
     '''
     return(integral)
 
+def printer(x):
+    m=x.shape[-1]
+    k=x.shape[0]
+    s=30
+    print("-"*((s+1)*k+1))
+    for i in range(m):
+        for j in range(k):
+            if j==0:
+                print("|{0:>{space}}".format(x[i][j],space=s),end="")
+            elif j==k-1:
+                print("|{0:>{space}}|".format(x[i][j],space=s))
+            else:
+                print("|{0:>{space}}".format(x[i][j],space=s),end="")
+    print("-"*((s+1)*k+1))
+    return(0)
+
+        
+
 def integration(function,a,b,ni):
     y_data_2,y_data,y_data_3=[],[],[]
+    geo= np.array([10**i for i in range(4) ])
     n_array=np.arange(40,370,2)
     h_array=(b-a)/n_array
-
+    
     for n in n_array:
         x_data=np.linspace(a,b,n+1)
         y_data.append(trapezoidal(a,b,N=n,f=function))
@@ -75,13 +94,17 @@ def integration(function,a,b,ni):
     simpval=simpson(a,b,N=ni,f=function)
 
     #PRINTING and RENDERING JUNK
-    print("{0:{fill}<66}".format('',fill='-'))
-    print("|{:<20}|".format("Quad method scipy"),"{0:^16} |{1:>23}|".format(trueval[0], trueval[1] ))
-    print("|{:<20}|".format("Trapezoidal rule"),"{0:^16} |{1:>23}|".format(trapval, trapval- trueval[0] ))
-    print("|{:<20}|".format("Simpson's rule"),"{0:^16} |{1:>23}|".format(simpval, simpval-trueval[0]))
-    print("{0:{fill}<66}".format('',fill='-'))
+    printer(np.array([
+            ["Quad method scipy",trueval[0], trueval[1] ],
+            ["Trapezoidal rule",trapval, trapval- trueval[0] ],
+            ["Simpson's rule",simpval, simpval-trueval[0]]
+            ]))
+
+    plt.xscale('log')
     plt.plot(h_array,y_data,label="Trapezoidal rule")
+    plt.scatter(h_array,y_data,label="Trapezoidal rule")
     plt.plot(h_array,y_data_2,label="Simpson's rule")
+    plt.scatter(h_array,y_data_2,label="Trapezoidal rule")
     plt.plot(h_array,y_data_3,linestyle='--',label="scipy's simpson implementation")
     plt.legend()
 
@@ -97,10 +120,11 @@ if __name__=="__main__":
     V= [0,0.5,2.0,4.05,8,12.5,18,24.5,32,40.5,50]
     trapval=trapezoidal(0,1,y=V,N=10)
     simpval=simpson(0,1,y=V,N=10)
-    print("{0:{fill}<40}".format('-',fill='-'))
-    print("|{:<20}|".format("Trapezoidal rule"),"{0:>16.6f} |".format(trapval))
-    print("|{:<20}|".format("Simpson's rule"),"{0:>16.6f} |".format(simpval))
-    print("{0:{fill}<40}".format('',fill='-'))
+
+    printer(np.array([
+        ["Trapezoidal rule",trapval],
+        ["Simpson's rule",simpval]
+    ]))
 
     '''
     PART 3(b)
