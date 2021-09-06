@@ -10,7 +10,8 @@ def trapezoidal(a,b,y=None,N=10,f=func):
     x=np.linspace(a,b,N+1) 
     if y is None:
         y=f(x)
-    
+    y=np.array(y)
+    l=len(y)
     if len(x)!=len(y):
         raise ValueError("length of x must be same as y")
     for i in range(len(x)):
@@ -19,6 +20,14 @@ def trapezoidal(a,b,y=None,N=10,f=func):
         else:
             integral+=2*y[i]
     integral*=(b-a)/(2*N)
+    
+    #Alternatively,
+    '''
+    y_1=y[:l-1:2]
+    y_2=y[1:l:2]
+
+    integral = (b-a)/(N*2) * (np.sum(y_1 + y_2))
+    '''
     return(integral)
 
 def simpson(a,b,y=None,N=10,f=func):
@@ -26,10 +35,11 @@ def simpson(a,b,y=None,N=10,f=func):
     x=np.linspace(a,b,N+1) 
     if y is None:
         y=f(x)
-
-    if len(x)!=len(y):
+    y=np.array(y)
+    l=len(y)
+    if len(x)!=l:
         raise ValueError("length of x must be same as y")
-
+    
     for i in range(len(x)):
         if i==0 or i==len(x)-1:
             integral+=y[i]
@@ -39,6 +49,14 @@ def simpson(a,b,y=None,N=10,f=func):
             integral+=4*y[i]
 
     integral*=(b-a)/(N*3)
+    #Alternatively,
+    '''
+    y_1=y[:l-2:2]
+    y_2=y[1:l-1:2]
+    y_3=y[2:l:2]
+
+    integral = (b-a)/(N*3) * (np.sum(y_1 + 4*y_2 + y_3))
+    '''
     return(integral)
 
 def integration(function,a,b,ni):
@@ -69,6 +87,7 @@ def integration(function,a,b,ni):
 
 
 if __name__=="__main__":
+
     #n=int(input("Enter the number of sub-interval's : "))
     #a=int(input("Enter the lower-limit(a) : "))
     #b=int(input("Enter the upper-limit(b) : "))
