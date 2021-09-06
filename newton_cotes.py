@@ -1,6 +1,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 import scipy.integrate as integrate
+from lib.printer import printer
 
 def func(x):
     return(np.exp(x))
@@ -58,24 +59,6 @@ def simpson(a,b,y=None,N=10,f=func):
     integral = (b-a)/(N*3) * (np.sum(y_1 + 4*y_2 + y_3))
     '''
     return(integral)
-
-def printer(x):
-    m=x.shape[-1]
-    k=x.shape[0]
-    s=30
-    print("-"*((s+1)*k+1))
-    for i in range(m):
-        for j in range(k):
-            if j==0:
-                print("|{0:>{space}}".format(x[i][j],space=s),end="")
-            elif j==k-1:
-                print("|{0:>{space}}|".format(x[i][j],space=s))
-            else:
-                print("|{0:>{space}}".format(x[i][j],space=s),end="")
-    print("-"*((s+1)*k+1))
-    return(0)
-
-        
 
 def integration(function,a,b,ni):
     y_data_2,y_data,y_data_3=[],[],[]
