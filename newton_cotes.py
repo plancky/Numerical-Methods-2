@@ -94,7 +94,7 @@ def integration(function,a,b,ni):
 
 if __name__=="__main__":
 
-    #n=int(input("Enter the number of sub-interval's : "))
+    #n=int(input("Enter the number of sub-intervals : "))
     #a=int(input("Enter the lower-limit(a) : "))
     #b=int(input("Enter the upper-limit(b) : "))
     '''
