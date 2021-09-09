@@ -60,9 +60,22 @@ def simpson(a,b,y=None,N=10,f=func):
     '''
     return(integral)
 
-def integration(function,a,b,ni):
+def integration(a,b,ni,function=None):
+    trueval=integrate.quad(function,a,b)
+    trapval=trapezoidal(a,b,N=ni,f=function)
+    simpval=simpson(a,b,N=ni,f=function)
+
+    #PRINTING 
+    printer(np.array([
+            ["Method used","Integral", "Error constant " ],
+            ["Quad method scipy",trueval[0], trueval[1] ],
+            ["Trapezoidal rule",trapval, trueval[1]-(trapval- trueval[0]) ],
+            ["Simpson's rule",simpval, simpval-trueval[0]]
+            ]))
+            
+    #PLOTTING CONVERGENCE GRAPH
+
     y_data_2,y_data,y_data_3=[],[],[]
-    geo= np.array([10**i for i in range(4) ])
     n_array=np.arange(40,370,2)
     h_array=(b-a)/n_array
     
@@ -72,18 +85,6 @@ def integration(function,a,b,ni):
         y_data_2.append(simpson(a,b,N=n,f=function))
         y_data_3.append(integrate.simpson(func(x_data),x_data))
     
-    trueval=integrate.quad(function,a,b)
-    trapval=trapezoidal(a,b,N=ni,f=function)
-    simpval=simpson(a,b,N=ni,f=function)
-
-    #PRINTING and RENDERING JUNK
-    printer(np.array([
-            ["Method used","Integral", "Error constant " ],
-            ["Quad method scipy",trueval[0], trueval[1] ],
-            ["Trapezoidal rule",trapval, trueval[1]-(trapval- trueval[0]) ],
-            ["Simpson's rule",simpval, simpval-trueval[0]]
-            ]))
-
     plt.xscale('log')
     plt.plot(h_array,y_data,label="Trapezoidal rule")
     plt.scatter(h_array,y_data,label="Trapezoidal rule")
@@ -114,7 +115,7 @@ if __name__=="__main__":
     PART 3(b)
     https://github.com/scipy/scipy/blob/v1.7.1/scipy/integrate/_quadrature.py#L433-L555
     '''
-    integration(func,3,13,100)
+    integration(0,13,100,function=func)
 
     plt.show()
     
