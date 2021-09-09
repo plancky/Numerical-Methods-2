@@ -78,8 +78,9 @@ def integration(function,a,b,ni):
 
     #PRINTING and RENDERING JUNK
     printer(np.array([
+            ["Method used","Integral", "Error constant " ],
             ["Quad method scipy",trueval[0], trueval[1] ],
-            ["Trapezoidal rule",trapval, trapval- trueval[0] ],
+            ["Trapezoidal rule",trapval, trueval[1]-(trapval- trueval[0]) ],
             ["Simpson's rule",simpval, simpval-trueval[0]]
             ]))
 
@@ -107,7 +108,7 @@ if __name__=="__main__":
     printer(np.array([
         ["Trapezoidal rule",trapval],
         ["Simpson's rule",simpval]
-    ]))
+    ]),column=False)
 
     '''
     PART 3(b)
