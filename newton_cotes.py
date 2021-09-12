@@ -69,8 +69,8 @@ def integration(a,b,ni,function=None):
     printer(np.array([
             ["Method used","Integral", "Error constant " ],
             ["Quad method scipy",trueval[0], trueval[1] ],
-            ["Trapezoidal rule",trapval, trueval[1]-(trapval- trueval[0]) ],
-            ["Simpson's rule",simpval, simpval-trueval[0]]
+            ["Trapezoidal rule",trapval, trueval[1]-(trapval-trueval[0]) ],
+            ["Simpson's rule",simpval, trueval[1]-(simpval-trueval[0]) ]
             ]))
             
     #PLOTTING CONVERGENCE GRAPH
