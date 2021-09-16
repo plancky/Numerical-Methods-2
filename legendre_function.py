@@ -24,9 +24,6 @@ def mylegendre(x,n=0,d=0):
     i= np.arange(0,m+1,1,dtype="int")
     return(np.sum(t(i)))
 
-def eval_myleg(x):
-    return(np.sum(x))
-    
 if __name__=="__main__":
     #t=posint_gamma(0)
     print(mylegendre(1,7))
