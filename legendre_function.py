@@ -1,16 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from lib.printer import printer
 
-
-def g(x):
-    if x % 1 != 0 or x < 0:
+def fact(x):
+    if x % 1 != 0 :
         raise ValueError("Input should be a positive integer.{0}".format(x))
     if x > 1:
-        return x * g(x - 1)
+        return x * fact(x - 1)
     else:
         return 1
 
+def gamma(x):
+    if x > 0 :
+        return(fact(x-1))
+    else:
+        raise ValueError("Input should be a positive integer.{0}".format(x))
 
 def mylegendre(x, n=0, d=0):
     if n < 0 or d < 0:
@@ -24,9 +27,9 @@ def mylegendre(x, n=0, d=0):
         if n - 2 * k - d >= 0:
             return (
                 (-1) ** k
-                * g(2 * n - 2 * k)
-                * g(n - 2 * k)
-                / (2 ** n * g(k) * g(n - k) * g(n - 2 * k) * g(n - 2 * k - d))
+                * fact(2 * n - 2 * k)
+                * fact(n - 2 * k)
+                / (2 ** n * fact(k) * fact(n - k) * fact(n - 2 * k) * fact(n - 2 * k - d))
             ) * x ** (n - 2 * k - d)
         else:
             return 0
@@ -104,11 +107,11 @@ def verify_recur3(x, n, pnx, pn_1x, pn_2x):
 
 
 if __name__ == "__main__":
-    '''
+    from lib.printer import printer
     from scipy.special import eval_legendre, legendre
-
+    plt.style.use("dark_background")
     
-    plt.style.use("seaborn-dark-palette")
+    '''
     x_data = np.linspace(-0.9, 0.9, 100)
     leg = np.vectorize(mylegendre, excluded=[1, 2])
     data = np.array(
