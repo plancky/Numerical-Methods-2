@@ -18,24 +18,21 @@ def gamma(x):
 def mylegendre(x, n=0, d=0):
     if n < 0 or d < 0:
         raise ValueError("n must be nonnegative.")
-    if n % 2 == 0:
-        m = n / 2
-    else:
-        m = (n - 1) / 2
-
+    m = n // 2
     def term(k):
         if n - 2 * k - d >= 0:
-            return (
+            return ((
                 (-1) ** k
                 * fact(2 * n - 2 * k)
                 * fact(n - 2 * k)
                 / (2 ** n * fact(k) * fact(n - k) * fact(n - 2 * k) * fact(n - 2 * k - d))
-            ) * x ** (n - 2 * k - d)
+            ) * x ** (n - 2 * k - d))
         else:
             return 0
 
     t = np.vectorize(term)
     i = np.arange(0, m + 1, 1, dtype="int")
+
     return np.sum(t(i))
 
 
@@ -53,7 +50,7 @@ def setaxis(ax, title=""):
 
 def verify_recur1(x, n, pnx, pnx1, pn1x1):
     if np.allclose(n * pnx, pnx1 * x - pn1x1):
-        print("Hence, Verified ")
+        print("Hence, Verified 1")
         np.savetxt(
             "leg_data/leg02.dat",
             np.array(
@@ -69,7 +66,7 @@ def verify_recur1(x, n, pnx, pnx1, pn1x1):
 
 def verify_recur2(x, n, pnx, pn1x, pn_1x):
     if np.allclose((2 * n + 1) * pnx * x, (n + 1) * pn1x + n * pn_1x):
-        print("Hence, Verified ")
+        print("Hence, Verified 2")
         np.savetxt(
             "leg_data/leg03.dat",
             np.array(
@@ -85,7 +82,7 @@ def verify_recur2(x, n, pnx, pn1x, pn_1x):
 
 def verify_recur3(x, n, pnx, pn_1x, pn_2x):
     if np.allclose(n * pnx, (2 * n - 1) * x * pn_1x - (n - 1) * pn_2x):
-        print("Hence, Verified ")
+        print("Hence, Verified 3")
         np.savetxt(
             "leg_data/leg04.dat",
             np.array(
@@ -107,11 +104,11 @@ def verify_recur3(x, n, pnx, pn_1x, pn_2x):
 
 
 if __name__ == "__main__":
-    from lib.printer import printer
+    from newton_cotes import trapezoidal
     from scipy.special import eval_legendre, legendre
-    plt.style.use("dark_background")
-    
-    '''
+    from lib.printer import matrixp
+    plt.style.use("seaborn-dark-palette")
+
     x_data = np.linspace(-0.9, 0.9, 100)
     leg = np.vectorize(mylegendre, excluded=[1, 2])
     data = np.array(
@@ -138,11 +135,11 @@ if __name__ == "__main__":
 
     np.savetxt("leg_data/leg00.dat", data.T, delimiter=",", fmt="%.12e")
     np.savetxt("leg_data/leg01.dat", data1.T, delimiter=",", fmt="%.12e")
-    '''
+    
 
     ldata = np.loadtxt("leg_data/leg00.dat", delimiter=",", dtype="double").T
     ldata1 = np.loadtxt("leg_data/leg01.dat", delimiter=",", dtype="double").T
-
+    
     fig, (ax1, ax2) = plt.subplots(1, 2)
     for i in range(1, 4):
         ax1.plot(ldata[0], ldata[i], label="$P_{0}$".format(i - 1))
@@ -155,15 +152,21 @@ if __name__ == "__main__":
     verify_recur1(ldata[0], 2, ldata[3], ldata1[3], ldata1[2])
     verify_recur2(ldata[0], 2, ldata[3], ldata[4], ldata[2])
     verify_recur3(ldata[0], 3, ldata[4], ldata[3], ldata[2])
-
     mat = np.ones((4, 4))
     mat2 = np.identity(4)
-
+    mat3 = np.ones((4,4))
+    mat4 = np.ones((4,4))
     for i in range(4):
         for j in range(4):
             mat[i][j] = np.sum(ldata[i + 1] * ldata[j + 1] * np.diff(ldata[0])[0])
+            mat4[i][j] = np.sum(eval_legendre(i,x_data)*eval_legendre(j,x_data)* np.diff(ldata[0])[0])
+            mat3[i][j] = trapezoidal(-0.9,0.9,y = ldata[i + 1] * ldata[j + 1], N=99)
             mat2[i][j] *= 2 / (2 * j + 1)
-    printer(mat, column=False)
-    printer(mat2, column=False)
+
+    def mat1(*a):
+        with open('leg_data/leg1.md','w') as f :
+            for x in a:
+                f.write(matrixp(x))
+    mat1(mat,mat2,mat3)
 
     plt.show()
