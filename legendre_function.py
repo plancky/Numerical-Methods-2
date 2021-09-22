@@ -36,7 +36,7 @@ def mylegendre(x, n=0, d=0):
     return np.sum(t(i))
 
 
-def setaxis(ax, title=""):
+def setaxis(ax, title="",x=["",""]):
     ax.spines["left"].set_position("zero")
     ax.spines["bottom"].set_position("zero")
     ax.spines["right"].set_color("none")
