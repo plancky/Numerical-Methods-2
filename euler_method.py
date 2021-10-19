@@ -1,5 +1,24 @@
 import numpy as np
 
+
+def rk4(x,ii,f,h):
+    for j in ii[1:]:
+        m1 = f(j,x[-1])
+        m2 = f(j+h/2,x[-1] + h/2*m1)
+        m3 =f(j+h/2,x[-1] + h/2*m2)
+        m4 = f(j+h,x[-1] + h*m3)
+        avg_slope = ( m1 +2*(m2 +m3) + m4 )/6
+        x.append(x[-1] + avg_slope*h)
+def rk2(x,ii,f,h):
+    for j in ii[1:]:
+        x.append(x[-1] + (f(j,x[-1]) + f(j+h,x[-1] + h*f(j,x[-1])))/2*h)
+def em(x,ii,f,h):
+    for j in ii[1:]:
+        x.append(x[-1] + f(j+h/2,x[-1] + (h/2)*(f(j,x[-1])))*h)
+def ef(x,ii,f,h):
+    for j in ii[1:]:
+        x.append(x[-1] + f(j,x[-1])*h)
+
 def ode_solver(f,d=(0,5),i=(0,0),N=7,method = "ef" ):
     if method not in ["ef","em","rk2","rk4"]:
         raise ValueError("Method not supported")
@@ -9,23 +28,19 @@ def ode_solver(f,d=(0,5),i=(0,0),N=7,method = "ef" ):
     h = np.diff(ii)[0]
     x = [x0]
     if method == "ef":
-        for j in ii[1:]:
-            x.append(x[-1] + f(j,x[-1])*h)
+        ef(x,ii,f,h)
     elif method == "em":
-        for j in ii[1:]:
-            x.append(x[-1] + f(j+h/2,x[-1] + (h/2)*(f(j,x[-1])))*h)
+        em(x,ii,f,h)
     elif method == "rk2":
-        for j in ii[1:]:
-            x.append(x[-1] + (f(j,x[-1]) + f(j+1,x[-1] + h*f(j,x[-1])))/2*h)
+        rk2(x,ii,f,h)
     elif method== "rk4" :
-        for j in ii[1:]:
-            m1 = f(j,x[-1])
-            m2 = f(j+h/2,x[-1] + h/2*m1)
-            m3 =f(j+h/2,x[-1] + h/2*m2)
-            m4 = f(j+h,x[-1] + h*m3)
-            avg_slope = ( m1 +2*(m2 +m3) + m4 )/6
-            x.append(x[-1] + avg_slope*h)
+        rk4(x,ii,f,h)
+
     return(x[-1],np.array(x),ii)
+
+#def ode_simul(**args):
+
+
 
 def forall(f,g,dom,ini,d,N=100,yd=1):
     nodes = np.linspace(dom[0],dom[1],N+2)
@@ -52,6 +67,7 @@ if __name__ == '__main__':
     fig1,axes1= plt.subplots(1,2,figsize=(20,12))
     fig2,axes2= plt.subplots(1,2,figsize=(20,12))
     fig3,axes3= plt.subplots(1,2,figsize=(20,12))
+    
     #Problem 1
     halflife = 4
     lamda =  (np.log(2)/halflife) 
@@ -83,6 +99,18 @@ if __name__ == '__main__':
     fig3.suptitle("Stokes' Law Q3")
 
     fig3.savefig("./euler_data/stokes_law.png")
+    
+    '''
+    # Problem 4
+    fig4,axes4= plt.subplots(1,1,figsize=(20,12))
+    x_data = ode_solver(lambda x,y: y + x - x**2, (0,15), (0,0), 100, method="rk4" )[1]
+    for i in [-1,-2,-3,-4]:
+        y_data = ode_solver(lambda x,y: -x, (0,15), (0,i), 100, method="rk4")[1]
+        axes4.scatter(x_data,y_data,label= f"$y(0)={i}$" )
+    axes4.legend()
+    fig4.savefig("./euler_data/coupled.png")
+    '''
+
 
 
 
