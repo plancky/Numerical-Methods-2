@@ -3,7 +3,7 @@ def put(x,i,v):
     np.put(x,i,v)
     return(x)
 
-def rk4(i,x,f,h):
+def rk4(x,f,h,i):
     x_i,t = x[i],x[0] 
     m1 = f[i-1](*x)
     m2 = f[i-1](*put(x,[0,i],[t+h/2,x_i+h/2*m1]))
@@ -22,14 +22,16 @@ def em(i,x,f,h):
 def ef(i,x,f,h):
     return(x[i] + h* f[i-1](*x))
 
-def ode_solver(f,t_axis,ini,Nh,n,method=rk4):
+def ode_solver(func,t_axis,ini,Nh,n,method=rk4):
     N,h = Nh
     data = np.zeros((N+2,n))
-    data[:,0],data[0] = t_axis, ini
+    data[:,0],data[0,:] = t_axis, np.array(ini)
     params =  np.arange(1,n)
-    iter = np.vectorize(method, excluded=[1,2,3]) 
-    for j in range(N+1) :
-        data[j+1,1:] = iter(params,data[j],f,h)
+    iter = np.vectorize(method, excluded=["f","h","x"]) 
+    for j in range(0,N+1) :
+        data[j+1,1:] = iter(x=data[j],f=func,h=h,i=params)
+        print(data[j+1],j+1)
+    print(data)
     return(data)
 
 class set_problem:
@@ -40,7 +42,7 @@ class set_problem:
         self.dom = np.linspace(*dom,N+2)
         self.ini = ini
         self.f =f
-        self.ivp = (self.f,self.dom,self.ini,(N,self.dom[1] - self.dom[0]),self.n)
+        self.ivp = [self.f,self.dom,self.ini,(N,self.dom[1] - self.dom[0]),self.n]
         self.dat = dict()
     def rk4(self):
         self.data_rk4 = ode_solver(*self.ivp,method=rk4)
