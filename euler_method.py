@@ -38,9 +38,6 @@ def ode_solver(f,d=(0,5),i=(0,0),N=7,method = "ef" ):
 
     return(x[-1],np.array(x),ii)
 
-#def ode_simul(**args):
-
-
 
 def forall(f,g,dom,ini,d,N=100,yd=1):
     nodes = np.linspace(dom[0],dom[1],N+2)

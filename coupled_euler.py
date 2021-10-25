@@ -38,13 +38,17 @@ def ode_solver(func,t_axis,ini,Nh,n,method=rk4):
     return(data)
 
 class set_problem:
-    def __init__(self,f,dom,ini,N):
+    def __init__(self,f,dom,ini,N,vars=None):
         self.n = len(ini) 
         if self.n-1 != len(f) :
             raise ValueError("unequal equations and parameters") 
         self.dom = np.linspace(*dom,N+2)
         self.ini = ini
-        self.f =f
+        self.f = f
+        if vars is not None :
+            self.vars = vars
+        else:
+            self.vars = list(range(self.n))
         self.ivp = [self.f,self.dom,self.ini,(N,self.dom[1] - self.dom[0]),self.n]
         self.dat = dict()
     def rk4(self):
@@ -65,21 +69,32 @@ class set_problem:
         return(self.data_ef)
     def jt_plot(self,ax,j):
         for i in self.dat:
-            ax.plot(self.dom,self.dat[i][:,j],"-1",label=i)
+            ax.plot(self.dom,self.dat[i][:,j],"-1",label=f"{i}--{self.vars[j]}")
     def kj_plot(self,ax,j,k):
         for i in self.dat:
-            ax.plot(self.dat[i][:,j],self.dat[i][:,k],"-p",label=i)
+            ax.plot(self.dat[i][:,j],self.dat[i][:,k],"-1",label=f"{i}--{self.vars[k]} vs {self.vars[j]}")
 
 if __name__ == "__main__" : 
     import matplotlib.pyplot as plt
     plt.style.use("bmh")
     ivp = set_problem([lambda t,x,y : x + y -x**3 , lambda t,x,y : -x ],
                      (0.1,15),
+                     (0,0,1),N =500)
+    ivp1 = set_problem([lambda t,x,y : x + y -x**3 , lambda t,x,y : -x ],
+                     (0.1,15),
+                     (0,0,-2),N =500)
+    ivp2 = set_problem([lambda t,x,y : x + y -x**3 , lambda t,x,y : -x ],
+                     (0.1,15),
                      (0,0,-1),N =500)
-    data_rk4,data_rk2,data_em,data_ef = ivp.rk4(),ivp.rk2(),ivp.ef(),ivp.em() 
-    fig,(ax1,ax2) = plt.subplots(2,1)
+    ivp.rk4()
+    ivp2.rk4()
+    ivp1.rk4() 
+    #fig,(ax1,ax2) = plt.subplots(2,1)
     fig2,a = plt.subplots(1,1)
     ivp.kj_plot(a,1,2)
-    ax1.legend(),ax2.legend(),a.legend()
+    ivp1.kj_plot(a,1,2)
+    ivp2.kj_plot(a,1,2)
+    #ax1.legend(),ax2.legend(),
+    a.legend()
     plt.show()
 
