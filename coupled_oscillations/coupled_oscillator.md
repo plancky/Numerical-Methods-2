@@ -19,16 +19,16 @@ import matplotlib.pyplot as plt
 #### MATH
 
 Applying KVL in two inner loops,
-$
+$$
 \begin{equation}
     L\frac{dI_b}{dt} = C'^{-1}Q_2 - C^{-1}Q_3 - R I_b
 \end{equation}
-$
-$
+$$
+$$
 \begin{equation}
     L\frac{dI_b}{dt} = C'^{-1}Q_2 - C^{-1}Q_3 - R I_b
 \end{equation}
-$
+$$
 
 Now, applying KCL at node b, 
 $
@@ -37,11 +37,11 @@ $
 \end{equation}
 $
 In our case setting internal resistance R of inductors zero
-$
+$$
 \begin{equation*}
     \frac{dQ_1}{dt} = -I_a, \frac{dQ_2}{dt} = -I_a - I_b, \frac{dQ_3}{dt} = I_b
 \end{equation*}
-$
+$$
 #### CODE
 Now to play with initial value problem understand and use the following code which can also be found in [here](.,/coupled_oscillations.py).
 
