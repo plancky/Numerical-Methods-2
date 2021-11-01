@@ -14,9 +14,9 @@ ivp = set_problem(
     lambda t,x,y,q1,q2,q3 : -x , #Function associated with dq1/dt
     lambda t,x,y,q1,q2,q3 : -x-y, #Function associated with dq2/dt
     lambda t,x,y,q1,q2,q3 : y], #Function associated with dq3/dt
-    dom=(0,15), # Time Domain 
-    ini=(0,10000,10000,1,0,-1), #initial conditions in ordered tuple(t,I_a,I_b,q1,q2,q3)
-    N=int(20000),# No. of nodes/ control step size
+    dom=(0,10), # Time Domain 
+    ini=(0,0,0,1,0,-1), #initial conditions in ordered tuple(t,I_a,I_b,q1,q2,q3)
+    N=int(10000),# No. of nodes/ control step size
     vars = ("t","$I_a$","$I_b$","q1","q2","q3") # var names for labels
     )
 

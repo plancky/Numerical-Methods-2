@@ -97,26 +97,3 @@ if __name__ == '__main__':
 
     fig3.savefig("./euler_data/stokes_law.png")
     
-    '''
-    # Problem 4
-    fig4,axes4= plt.subplots(1,1,figsize=(20,12))
-    x_data = ode_solver(lambda x,y: y + x - x**2, (0,15), (0,0), 100, method="rk4" )[1]
-    for i in [-1,-2,-3,-4]:
-        y_data = ode_solver(lambda x,y: -x, (0,15), (0,i), 100, method="rk4")[1]
-        axes4.scatter(x_data,y_data,label= f"$y(0)={i}$" )
-    axes4.legend()
-    fig4.savefig("./euler_data/coupled.png")
-    '''
-
-
-
-
-    '''
-    fx = lambda t,x : np.sin(x*t)
-    
-    t,x = np.linspace(0,1,20),np.linspace(0,1,20)
-    T,X = np.meshgrid(t,x)
-    f_i = 1/np.sqrt(1+f(T,X)**2)
-    f_j = f(t,x)/np.sqrt(1+f(T,X)**2)
-    plt.quiver(T,X,f_i,f_j)'''
-
