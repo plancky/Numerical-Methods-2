@@ -1,5 +1,4 @@
 import numpy as np 
-import os
 
 def matrixp(x):
     c= r"\end{array}\right]$$" + "\n"
@@ -23,25 +22,31 @@ def gauss_elim(A,b,loc ="electric_circuit.md"):
     aug = np.column_stack((A,b))
     dat=""
     i = 0
+    rank_A= 0 
     for j in np.arange(m):
-        bool_j = A[i:,j]!=0
+        bool_j = aug[i:k,j]!=0
         if np.any(bool_j):   
             dat+=matrixp(aug)
             new_i = np.where(bool_j)[0][0] +i 
             aug[[i,new_i]]=aug[[new_i,i]]  
             pivot =aug[i][j]
-            aug[i] = aug[i]/pivot #scale
+            rank_A += 1
+            aug[i] = aug[i]/pivot #scale the row 
             dat+=matrixp(aug)
             if i+1 == k :
                 break
-            else: #pivot
+            else: #apply pivot operation 
                 for row in np.arange(i+1,k):
                     aug[row]= aug[row]-aug[row][j]*aug[i]
-                    dat+=matrixp(aug)
+                dat+=matrixp(aug)
                 i+=1
-    #f = open(os.getcwd()+f'/{loc}','w')
-    #f.write(dat)
-    #f.close() 
+                continue
+    rank_aug = len(set(np.where(aug!=0)[0]))
+    if rank_aug == rank_A and rank_aug == k :
+        print(f"Consistent system, unique solution, {rank_aug} {rank_A} {k}")
+    elif rank_aug >= rank_A and rank_aug ==k :
+        print(f"Inconsistent system, no solution, {rank_aug} {rank_A} {k}")    
+
     return(aug,dat)
 
 def gauss_jordan(aug):
