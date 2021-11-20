@@ -17,8 +17,8 @@ def gauss_elim(A,b,loc ="electric_circuit.md"):
     k,m = A.shape
     if b.ndim == 1 :
         b_len = len(b)
-    if k != b_len:
-        raise ValueError("no. of rows in A must be same as the number of rows in b ")
+    if k != b_len :
+        raise ValueError("No. of rows in A must be same as the number of rows in b ")
     aug = np.column_stack((A,b))
     dat=""
     i = 0
