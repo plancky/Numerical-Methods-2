@@ -1,0 +1,130 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{metropolis}
+\metroset{numbering=fraction}
+\usecolortheme{owl}
+\usepackage{amsmath,fontenc,amsfonts,mathtools}%
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[subsections numbered]
+
+\makeatletter
+\setbeamertemplate{section page}{
+	\centering
+	\begin{minipage}{22em}
+		\raggedright
+		\usebeamercolor[fg]{section title}
+		\usebeamerfont{section title}
+		\thesection.~\insertsectionhead\\[-1ex]
+		\usebeamertemplate*{progress bar in section page}
+		\par
+		\ifx\insertsubsectionhead\@empty\else%
+		\usebeamercolor[fg]{subsection title}%
+		\usebeamerfont{subsection title}%
+		\thesection.\thesubsection.~\insertsubsectionhead
+		\fi
+	\end{minipage}
+	\par
+	\vspace{\baselineskip}
+}
+
+\makeatother
+
+
+\usepackage{graphicx}
+\usepackage{svg}
+%\usepackage{amsmath}
+%\usepackage[backend=bibtex,style=chem-acs]{biblatex}
+%\addbibresource{careyfoster.bib}
+\usepackage{csvsimple,longtable,booktabs}
+
+
+\title{Enquiry into Iterative schemes}
+\subtitle{A Brief Review}
+\author{Shashvat Jain}
+\date{\today}
+\begin{document}
+	\maketitle
+	\begin{frame}{OUTLINE}
+		\tableofcontents
+	\end{frame}
+	\section{INTRODUCTION}
+	\begin{frame}{why not row reduction?}
+		Why do we need Iterative methods?\\
+		we already have row-reduction,cramer's rule and solution using inverse at our disposal!?\\
+		Compuatational complexity of Gauss-elimination is $\mathrm{O(n^3)}$ 
+	\end{frame}
+
+	\section{HEURISTICS}
+	\begin{frame}{Why is the only }
+		\begin{itemize}
+			\item \textbf{AIM : } To determine an unknown low resistance using the Carey Foster's bridge.
+			\item \textbf{APPARATUS USED : } Carey foster's bridge, unknown low resistance,Resistance box, Battery, jockey, one way key, Galvanometer,small shunt resistance, connecting wires of almost zero resistance.
+		\end{itemize}
+	\end{frame}
+
+	\subsection{CIRCUIT DIAGRAM}
+
+%	\begin{frame}{CIRCUIT DIAGRAM}
+%		\begin{figure}
+%			\centering
+%			\includegraphics[width=0.7\columnwidth]{Carey_Foster_bridge.png}
+%			\caption{The Carey Foster bridge. The thick-edged areas are busbars of almost zero resistance.\cite{dia1}}
+%			\label{fig:1}
+%		\end{figure}
+%	\end{frame}
+	
+
+	\subsection{THEORY}
+	\begin{frame}{THEORY}
+		X is the unknown resistance. P,Q and Y are known resistances of magnitude comparable to that of X, forming the other half of the bridge. The bridge wire EF has a jockey contact D placed along it and is slid until the galvanometer G measures zero. The thick-bordered areas are thick copper busbars of almost zero resistance.\\ 
+		The bridge is said to be balanced when no current passes through the galvanometer.\\ 
+		\begin{itemize}
+			\item
+		\end{itemize}
+	\end{frame}
+
+
+	\begin{frame}{FORMULA USED}
+		and add 1 to each side:
+		\begin{equation}
+			{\displaystyle {P \over Q}+1={{X+Y+\sigma (100+\alpha +\beta )} \over {X+\sigma (100-\ell _{2}+\beta )}}}
+		\end{equation}
+		From (1) and (2) we get:
+		\begin{equation*}
+			{Y+\sigma (100-\ell _{1}+\beta )=X+\sigma (100-\ell _{2}+\beta )}
+		\end{equation*}
+		\begin{equation}
+			{\implies X= Y+ \sigma (\ell _{2}-\ell _{1})}
+		\end{equation}
+	\end{frame}
+	\begin{frame}{Subtleties of Modification}
+		\begin{itemize}
+			\item Note that the unknown unwanted resistances $\alpha$ and $\beta$ have no affect on the finally obtained resistance $X$. This reduces the error in the result to a great extent.
+			This boosts the sensitivity of the instrument 
+			\item Comparing this to a metre bridge, This setup ensures that the components of the circuit are not majorly harmed incase the unknown resistance is very small.
+			\item This enables more accurate measurements of smaller resistances.
+		\end{itemize}
+	\end{frame}
+	\subsection{PROCEDURE}
+	\begin{frame}{PROCEDURE}
+		\textbf{To find the unknown resistance(X)}
+		\begin{enumerate}
+			\item Setup the circuit as shown in figure \ref{fig:1}
+			\item Start by switching on the circuit and sliding the galvanometer jockey ubtil the deflections become very small.
+			\item Now remove the shunt resistance and search for null point in the region of minimal deflection.
+			\item Once the null point is found, measure EF.
+			\item Swap X and Y and repeat the above steps to get $\ell_2$.
+			\item Repeat 1,2,3 qnd 4 with different values of Y.
+		\end{enumerate}
+		\textbf{To find the resistance per unit length ($\sigma$)}
+		\begin{enumerate}
+			\item Setup the circuit as shown in circuit diagram but now replace X with a wire of zero resistance. 
+		\end{enumerate}
+	\end{frame}
+
+
+\section{REFERENCES}
+	\begin{frame}[t]
+	\frametitle{REFERENCES}
+		%\printbibliography[heading=none]
+	\end{frame}
+\end{document}

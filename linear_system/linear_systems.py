@@ -74,17 +74,19 @@ def gauss_seidel(A,b,N=500,tol=1e-8):
             i+=1
     A,b = aug[:,:-1],aug[:,-1]
     x = b/(np.diagonal(A))
+    each_iter = x.copy() 
     for n in np.arange(N):
         new_x=x.copy()
         for row in np.arange(k): # 0,1,2,..k-1
-            #print(A[row])   
-            new_x[row]= (b[row]-np.sum(np.delete(A[row]*new_x,row,axis=0))) / A[row][row] 
-        print(new_x)  
-        if np.abs((new_x - x)).max() <= tol:
+            if A[row,row] != 0:
+                new_x[row]= (b[row]-np.sum(np.delete(A[row]*new_x,row,axis=0))) / A[row,row]
+        each_iter = np.vstack((each_iter,new_x))
+        er = np.abs((new_x - x)).max()
+        if er <= tol:
             break
         else:
             x = new_x.copy()
-    return(new_x)
+    return(each_iter,er)
             
 
 if __name__=="__main__":

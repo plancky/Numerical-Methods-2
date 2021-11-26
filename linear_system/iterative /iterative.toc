@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{INTRODUCTION}{3}{0}{1}
+\beamer@sectionintoc {2}{HEURISTICS}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{CIRCUIT DIAGRAM}{7}{0}{2}
+\beamer@subsectionintoc {2}{2}{THEORY}{7}{0}{2}
+\beamer@subsectionintoc {2}{3}{PROCEDURE}{10}{0}{2}
+\beamer@sectionintoc {3}{REFERENCES}{11}{0}{3}
